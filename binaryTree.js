@@ -1,8 +1,7 @@
 class Node {
   constructor(data) {
     this.data = data;
-    this.left = null;
-    this.right = null;
+    this.left = this.right = null;
   }
 }
 
@@ -32,13 +31,64 @@ class Tree {
     return newNode;
   }
 
-  insert(data, root) {
+  insert(data, currentNode = this.root) {
+    // If node is empty, create a new node with data as value
+    if (currentNode === null) {
+      return new Node(data);
+    }
+    // Recursive case
+    if (data < currentNode.data) {
+      currentNode.left = this.insert(data, currentNode.left);
+      console.log(currentNode);
+    } else if (data > currentNode.data) {
+      currentNode.right = this.insert(data, currentNode.right);
+      console.log(currentNode);
+    }
+    return currentNode;
+  }
 
+  delete(data, currentNode = this.root) {
+    // If node is empty, return
+    if (currentNode === null) return;
+
+    if (data < currentNode.data) {
+      console.log(currentNode);
+      currentNode.left = this.delete(data, currentNode.left)
+    } else if (data > currentNode.data) {
+      console.log(currentNode);
+      currentNode.right = this.delete(data, currentNode.right);
+    } else if (data === currentNode.data) {
+      this.#deleteHelper();
+    }
+  }
+
+  /**
+   * Console logs out the Binary Tree in a structured format to make it easier to visualize.
+   * No idea how this code works. Will try to understand in the future.
+   */
+  prettyPrint(node = this.root, prefix = "", isLeft = true) {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  };
+
+  //Node deletion helper. Has 3 cases to help delete() work.
+  #deleteHelper() {
+    
   }
 }
 
-
 const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const tree = new Tree(arrayData);
 
-const newData = new Tree(arrayData);
-console.log(newData);
+// Tests
+//tree.insert(10);
+tree.prettyPrint();
+tree.delete(9);
