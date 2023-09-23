@@ -45,24 +45,24 @@ class Tree {
     return currentNode;
   }
 
-  delete(data, currentNode = this.root, previousNode = null) {
+  delete(data, currentNode = this.root) {
     // Base case: If node is empty, return null
-    if (currentNode === null) return this.root;
+    if (currentNode === null) return currentNode;
 
-    // Recursive case: passing data, current node and previous node
+    // Recursive case
     if (data < currentNode.data) {
-      currentNode.left = this.delete(data, currentNode.left, currentNode)
+      currentNode.left = this.delete(data, currentNode.left);
       return currentNode;
     } else if (data > currentNode.data) {
-      currentNode.right = this.delete(data, currentNode.right, currentNode);
+      currentNode.right = this.delete(data, currentNode.right);
       return currentNode;
     } else if (data === currentNode.data) {
-      return this.#deleteHelper(currentNode, previousNode);
+      return this.#deleteHelper(currentNode);
     }
   }
 
   //Node deletion helper. Has 3 cases to help delete() work.
-  #deleteHelper(currentNode, previousNode) {
+  #deleteHelper(currentNode) {
     // CASE 1: Delete a leaf node
     if (currentNode.left === null && currentNode.right === null) {
       return currentNode = null;
@@ -75,7 +75,14 @@ class Tree {
 
     // CASE 3: Delete a node with a single child
     if (currentNode.left || currentNode.right) {
-
+      if (currentNode.left) {
+        currentNode.data = currentNode.left.data;
+        currentNode.left = null;
+      } else if (currentNode.right) {
+        currentNode.data = currentNode.right.data;
+        currentNode.right = null;
+      }
+      return currentNode;
     }
   }
 
@@ -89,20 +96,20 @@ class Tree {
     let previousNode = rightSubtree;
 
     // Use inorder traversal to find minimum value in the right subtree of the current node.
-    while (rightSubtree.left !== null) {
+    while (rightSubtree.left) {
       previousNode = rightSubtree;
       rightSubtree = rightSubtree.left;
     }
 
+    // CASE 1: When rightSubtree.left is null from the start which means while loop did not run.
     // Set the 'deleted' node data to the successor data. Then, delete the successor node.
     if (previousNode === rightSubtree && rightSubtree.left === null) {
       currentNode.data = rightSubtree.data;
       currentNode.right = null;
-      console.log(currentNode);
-      console.log(rightSubtree);
-      console.log(previousNode);
     }
 
+    // CASE 2: After running while loop,
+    // Set the 'deleted' node data to the successor data. Then, delete the successor node.
     if (previousNode !== rightSubtree) {
       currentNode.data = rightSubtree.data;
       previousNode.left = null;
@@ -133,7 +140,7 @@ const arrayData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 const tree = new Tree(arrayData);
 
 // Tests
-//tree.insert(3);
-tree.delete(9);
+//tree.insert(119);
+tree.delete(2);
 tree.prettyPrint();
 console.log(tree);
