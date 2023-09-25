@@ -147,6 +147,33 @@ class Tree {
     }
   }
 
+  /**
+   * Goes through the tree in level order
+   * Callback function gives flexibility to perform various operations. (E.g. Add 2 to every Node in the tree)
+   */
+  levelOrder(callbackFunction) {
+    if (this.root === null) return null;
+
+    const queue = [this.root];
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+
+      if (callbackFunction) {
+        callbackFunction(currentNode.data);
+      }
+
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+    }
+  }
+
+  
+
     /**
    * Console logs out the Binary Tree in a structured format to make it easier to visualize.
    * No idea how this code works. Will try to understand in the future.
@@ -174,3 +201,4 @@ tree.delete(10);
 tree.prettyPrint();
 tree.find(6345);
 console.log(tree);
+tree.levelOrder(console.log);
