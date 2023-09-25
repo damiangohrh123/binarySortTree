@@ -46,8 +46,22 @@ class Tree {
   }
 
   delete(data, currentNode = this.root) {
-    // Base case: If node is empty, return null
-    if (currentNode === null) return currentNode;
+    // If node is empty, return null
+    if (currentNode === null) {
+      console.log('Tree is empty.');
+      return null;
+    }
+
+    //If data cannot be found, return null
+    if (!currentNode.left && !currentNode.right && data !== currentNode.data) {
+      console.log('Data could not be found.')
+      return null;
+    }
+
+    // Base case
+    if (data === currentNode.data) {
+      return this.#deleteHelper(currentNode);
+    }
 
     // Recursive case
     if (data < currentNode.data) {
@@ -56,8 +70,6 @@ class Tree {
     } else if (data > currentNode.data) {
       currentNode.right = this.delete(data, currentNode.right);
       return currentNode;
-    } else if (data === currentNode.data) {
-      return this.#deleteHelper(currentNode);
     }
   }
 
@@ -117,6 +129,24 @@ class Tree {
     return currentNode;
   }
 
+  find(data, currentNode = this.root) {
+    if (currentNode === null) return console.log('Node not found');
+
+    // Base case
+    if (data === currentNode.data) {
+      console.log('Node found: ')
+      console.log(currentNode);
+      return currentNode;
+    }
+
+    // Recursive case
+    if (data < currentNode.data) {
+      return currentNode = this.find(data, currentNode.left);
+    } else if (data > currentNode.data) {
+      return currentNode = this.find(data, currentNode.right);
+    }
+  }
+
     /**
    * Console logs out the Binary Tree in a structured format to make it easier to visualize.
    * No idea how this code works. Will try to understand in the future.
@@ -135,12 +165,12 @@ class Tree {
     };
 }
 
-//const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const arrayData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arrayData);
 
 // Tests
 //tree.insert(119);
-tree.delete(2);
+tree.delete(10);
 tree.prettyPrint();
+tree.find(6345);
 console.log(tree);
