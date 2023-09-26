@@ -148,6 +148,7 @@ class Tree {
   }
 
   /**
+   * Breadth-first traversal
    * Goes through the tree in level order
    * Callback function gives flexibility to perform various operations. (E.g. Add 2 to every Node in the tree)
    */
@@ -172,6 +173,41 @@ class Tree {
     }
   }
 
+  /**
+   * Depth-first traversal
+   * Inorder - <Root>, <Left>, <Right>
+   * Preorder - <Left>, <Root>, <Right>
+   * Postorder - <Left>, <Right>, <Root>
+   */
+  inOrder(callbackFunction, currentNode = this.root) {
+    // Base case
+    if (currentNode === null) return null;
+    
+    // Recursive case
+    callbackFunction(currentNode);
+    this.inOrder(callbackFunction, currentNode.left);
+    this.inOrder(callbackFunction, currentNode.right);
+  }
+
+  preOrder(callbackFunction, currentNode = this.root) {
+    // Base case
+    if (currentNode === null) return null;
+
+    // Recursive case
+    this.preOrder(callbackFunction, currentNode.left);
+    callbackFunction(currentNode);
+    this.preOrder(callbackFunction, currentNode.right);
+  }
+
+  postOrder(callbackFunction, currentNode = this.root) {
+    // Base case
+    if (currentNode === null) return null;
+
+    // Recursive case
+    this.postOrder(callbackFunction, currentNode.left);
+    this.postOrder(callbackFunction, currentNode.right);
+    callbackFunction(currentNode);
+  }
   
 
     /**
@@ -202,3 +238,6 @@ tree.prettyPrint();
 tree.find(6345);
 console.log(tree);
 tree.levelOrder(console.log);
+//tree.inOrder(console.log);
+//tree.preOrder(console.log);
+tree.postOrder(console.log);
