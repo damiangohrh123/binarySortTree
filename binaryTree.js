@@ -209,6 +209,43 @@ class Tree {
     callbackFunction(currentNode);
   }
   
+  height(data) {
+    // Make use of find method
+    let node = this.find(data);
+
+    function getHeight(currentNode) {
+
+      // Base case
+      if (currentNode === null) return -1;
+
+      // Recursive case
+      let leftSubtree = getHeight(currentNode.left);
+      let rightSubtree = getHeight(currentNode.right);
+
+      // Get the larger height. Add 1 to count for the root node.
+      return Math.max(leftSubtree, rightSubtree) + 1;
+    }
+    return getHeight(node);
+  }
+
+  depth(data, currentNode = this.root, counter = 0) {
+    if (currentNode === null) return null;
+
+    // Base case
+    if (data === currentNode.data) {
+      return counter;
+    }
+
+    // Recursive case
+    if (data < currentNode.data) {
+      console.log(currentNode);
+      return this.depth(data, currentNode.left, counter + 1)
+    } else if (data > currentNode.data) {
+      console.log(currentNode);
+      return this.depth(data, currentNode.right, counter + 1);
+    }
+    return counter;
+  }
 
     /**
    * Console logs out the Binary Tree in a structured format to make it easier to visualize.
@@ -240,4 +277,6 @@ console.log(tree);
 tree.levelOrder(console.log);
 //tree.inOrder(console.log);
 //tree.preOrder(console.log);
-tree.postOrder(console.log);
+//tree.postOrder(console.log);
+//console.log(tree.height(67));
+console.log(tree.depth(3));
