@@ -175,8 +175,8 @@ class Tree {
 
   /**
    * Depth-first traversal
-   * Inorder - <Root>, <Left>, <Right>
-   * Preorder - <Left>, <Root>, <Right>
+   * Inorder - <Left>, <Root>, <Right>
+   * Preorder - <Root>, <Right>, <Left>
    * Postorder - <Left>, <Right>, <Root>
    */
   inOrder(callbackFunction, currentNode = this.root) {
@@ -184,8 +184,8 @@ class Tree {
     if (currentNode === null) return null;
     
     // Recursive case
-    callbackFunction(currentNode);
     this.inOrder(callbackFunction, currentNode.left);
+    callbackFunction(currentNode);
     this.inOrder(callbackFunction, currentNode.right);
   }
 
@@ -194,9 +194,10 @@ class Tree {
     if (currentNode === null) return null;
 
     // Recursive case
-    this.preOrder(callbackFunction, currentNode.left);
     callbackFunction(currentNode);
     this.preOrder(callbackFunction, currentNode.right);
+    this.preOrder(callbackFunction, currentNode.left);
+    
   }
 
   postOrder(callbackFunction, currentNode = this.root) {
@@ -247,6 +248,25 @@ class Tree {
     return counter;
   }
 
+  isBalanced(currentNode = this.root) {
+
+    // Recursive case (Making use of height method)
+    let leftSubtree = this.height(currentNode.left.data);
+    let rightSubtree = this.height(currentNode.right.data);
+
+    // Compare the heights of leftSubtree and rightSubtree,
+    // then absolute the number.
+
+    let compare = Math.abs(leftSubtree - rightSubtree);
+    if (compare > 1) {
+      console.log('Tree is not balanced');
+      return false;
+    } else {
+      console.log('Tree is balanced');
+      return true;
+    }
+  }
+
     /**
    * Console logs out the Binary Tree in a structured format to make it easier to visualize.
    * No idea how this code works. Will try to understand in the future.
@@ -269,14 +289,17 @@ const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arrayData);
 
 // Tests
-//tree.insert(119);
-tree.delete(10);
+tree.insert(119);
+tree.insert(118);
+//tree.delete(10);
 tree.prettyPrint();
-tree.find(6345);
-console.log(tree);
-tree.levelOrder(console.log);
+//tree.find(6345);
+//console.log(tree);
+//tree.levelOrder(console.log);
 //tree.inOrder(console.log);
+console.log(tree.depth(8));
 //tree.preOrder(console.log);
 //tree.postOrder(console.log);
 //console.log(tree.height(67));
-console.log(tree.depth(3));
+//console.log(tree.depth(3));
+tree.isBalanced();
