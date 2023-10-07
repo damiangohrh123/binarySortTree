@@ -185,7 +185,9 @@ class Tree {
     
     // Recursive case
     this.inOrder(callbackFunction, currentNode.left);
-    callbackFunction(currentNode);
+    if (callbackFunction) {
+      callbackFunction(currentNode);
+    }
     this.inOrder(callbackFunction, currentNode.right);
   }
 
@@ -194,7 +196,9 @@ class Tree {
     if (currentNode === null) return null;
 
     // Recursive case
-    callbackFunction(currentNode);
+    if (callbackFunction) {
+      callbackFunction(currentNode);
+    }
     this.preOrder(callbackFunction, currentNode.right);
     this.preOrder(callbackFunction, currentNode.left);
     
@@ -207,7 +211,9 @@ class Tree {
     // Recursive case
     this.postOrder(callbackFunction, currentNode.left);
     this.postOrder(callbackFunction, currentNode.right);
-    callbackFunction(currentNode);
+    if (callbackFunction) {
+      callbackFunction(currentNode);
+    }
   }
   
   height(data) {
@@ -267,6 +273,22 @@ class Tree {
     }
   }
 
+  rebalance(currentNode = this.root) {
+    let array = []  
+
+    /** 
+     * Pushes the current node's data into the new Array
+     * Then use the new array as an argument for buildTree
+    */
+    function pushToArray(node) {
+      array.push(node.data);
+    }
+
+    this.inOrder(pushToArray, currentNode);
+    
+    this.root = this.buildTree(array);
+  }
+
     /**
    * Console logs out the Binary Tree in a structured format to make it easier to visualize.
    * No idea how this code works. Will try to understand in the future.
@@ -290,16 +312,23 @@ const tree = new Tree(arrayData);
 
 // Tests
 tree.insert(119);
-tree.insert(118);
+tree.insert(120);
+tree.insert(121);
+tree.insert(123);
+tree.insert(124);
+tree.insert(125);
 //tree.delete(10);
 tree.prettyPrint();
 //tree.find(6345);
 //console.log(tree);
 //tree.levelOrder(console.log);
 //tree.inOrder(console.log);
-console.log(tree.depth(8));
+//console.log(tree.depth(8));
 //tree.preOrder(console.log);
 //tree.postOrder(console.log);
 //console.log(tree.height(67));
 //console.log(tree.depth(3));
+tree.isBalanced();
+tree.rebalance();
+tree.prettyPrint();
 tree.isBalanced();
