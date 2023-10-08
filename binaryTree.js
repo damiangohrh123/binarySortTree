@@ -91,11 +91,11 @@ class Tree {
     // CASE 3: Delete a node with a single child
     if (currentNode.left || currentNode.right) {
       if (currentNode.left) {
-        currentNode.data = currentNode.left.data;
-        currentNode.left = null;
+        currentNode = currentNode.left;
+        previousNode.left = currentNode;
       } else if (currentNode.right) {
-        currentNode.data = currentNode.right.data;
-        currentNode.right = null;
+        currentNode = currentNode.right;
+        previousNode.right = currentNode;
       }
       return currentNode;
     }
@@ -352,15 +352,12 @@ function domElements() {
   insertButton.addEventListener('click', () => {
     const value = parseInt(insertInput.value);
     tree.insert(value);
-    console.clear();
     tree.prettyPrint();
   });
 
   deleteButton.addEventListener('click', () => {
     const value = parseInt(deleteInput.value);
     tree.delete(value);
-    console.clear();
-    console.log(value);
     tree.prettyPrint();
   });
 
