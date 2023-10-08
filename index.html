@@ -6,6 +6,36 @@
   <title>Document</title>
 </head>
 <body>
-  <script src='binaryTree.js'></script>
+  <script src='binaryTree.js' defer></script>
+  <h1>Open up console to see and use Binary Tree!</h1>
+
+  <h3>Enter the size of the array. Values will be randomly generated. </h3>
+  <input type='number' id='randomNumberInput' maxlength='3'>
+  <button id='randomNumberButton'>Enter</button>
+
+  <h3>Insert single number.</h3>
+  <input type='number' id='insertInput' maxlength='3'>
+  <button id='insertButton'>Enter</button>
+
+  <h3>Remove single number.</h3>
+  <input type='number' id='deleteInput' maxlength='3'>
+  <button id='deleteButton'>Enter</button>
+
+  <h3>View height of node.</h3>
+  <input type='number' id='heightInput' maxlength='3'>
+  <button id='heightButton'>Enter</button>
+
+  <h3>View depth of node.</h3>
+  <input type='number' id='depthInput' maxlength='3'>
+  <button id='depthButton'>Enter</button>
+<p></p>
+  <button id='levelOrderButton'>Click to run level order traversal.</button>
+  <button id='inOrderButton'>Click to run in order traversal.</button>
+  <button id='preOrderButton'>Click to run pre order traversal.</button>
+  <button id='postOrderButton'>Click to run post order traversal.</button>
+<p></p>
+  <button id='isBalancedButton'>Check if tree is balanced.</button>
+  <button id='rebalanceButton'>Balance the tree.</button>
+
 </body>
 </html>

@@ -45,39 +45,42 @@ class Tree {
     return currentNode;
   }
 
-  delete(data, currentNode = this.root) {
-    // If node is empty, return null
+  delete(data, currentNode = this.root, previousNode = null) {
+    console.log(currentNode);
+    // If node cannot be found
     if (currentNode === null) {
       console.log('Tree is empty.');
       return null;
     }
 
-    //If data cannot be found, return null
-    if (!currentNode.left && !currentNode.right && data !== currentNode.data) {
-      console.log('Data could not be found.')
-      return null;
-    }
-
     // Base case
     if (data === currentNode.data) {
-      return this.#deleteHelper(currentNode);
+      console.log(currentNode);
+      return this.#deleteHelper(currentNode, previousNode);
     }
 
     // Recursive case
     if (data < currentNode.data) {
-      currentNode.left = this.delete(data, currentNode.left);
+      currentNode.left = this.delete(data, currentNode.left, currentNode);
       return currentNode;
     } else if (data > currentNode.data) {
-      currentNode.right = this.delete(data, currentNode.right);
+      currentNode.right = this.delete(data, currentNode.right, currentNode);
       return currentNode;
     }
   }
 
   //Node deletion helper. Has 3 cases to help delete() work.
-  #deleteHelper(currentNode) {
+  #deleteHelper(currentNode, previousNode) {
     // CASE 1: Delete a leaf node
     if (currentNode.left === null && currentNode.right === null) {
-      return currentNode = null;
+      if (previousNode) {
+        if (previousNode.left === currentNode) {
+            previousNode.left = null;
+        } else {
+            previousNode.right = null;
+        }
+      }
+      return null;
     }
 
     // CASE 2: Delete a node with 2 childs
@@ -124,7 +127,11 @@ class Tree {
     // Set the 'deleted' node data to the successor data. Then, delete the successor node.
     if (previousNode !== rightSubtree) {
       currentNode.data = rightSubtree.data;
-      previousNode.left = null;
+      if (previousNode.left === rightSubtree) {
+        previousNode.left = rightSubtree.right;
+      } else {
+        previousNode.right = rightSubtree.right;
+      }
     }
     return currentNode;
   }
@@ -134,8 +141,9 @@ class Tree {
 
     // Base case
     if (data === currentNode.data) {
-      console.log('Node found: ')
-      console.log(currentNode);
+      // Debugging purposes
+      //console.log('Node found: ')
+      //console.log(currentNode);
       return currentNode;
     }
 
@@ -307,28 +315,92 @@ class Tree {
     };
 }
 
+/**
+ * Binary Tree UI.
+ * Easier to use through HTML page.
+ */
+function domElements() {
+
+  // Definfing the tree here so all eventListeners can access it.
+  let tree;
+
+  // DOM elements
+  const randomNumberInput= document.getElementById('randomNumberInput');
+  const randomNumberButton = document.getElementById('randomNumberButton');
+  const insertInput = document.getElementById('insertInput');
+  const insertButton = document.getElementById('insertButton');
+  const deleteInput = document.getElementById('deleteInput');
+  const deleteButton = document.getElementById('deleteButton');
+  const heightInput = document.getElementById('heightInput');
+  const heightButton = document.getElementById('heightButton');
+  const depthInput = document.getElementById('depthInput');
+  const depthButton = document.getElementById('depthButton');
+  const levelOrderButton = document.getElementById('levelOrderButton');
+  const inOrderButton = document.getElementById('inOrderButton');
+  const preOrderButton = document.getElementById('preOrderButton');
+  const postOrderButton = document.getElementById('postOrderButton');
+  const isBalancedButton = document.getElementById('isBalancedButton');
+  const rebalanceButton = document.getElementById('rebalanceButton');
+
+  // Eventlistners
+  randomNumberButton.addEventListener('click', () => {
+    const arrayData = randomNumbers(randomNumberInput.value);
+    tree = new Tree(arrayData);
+    tree.prettyPrint();
+  });
+
+  insertButton.addEventListener('click', () => {
+    const value = parseInt(insertInput.value);
+    tree.insert(value);
+    console.clear();
+    tree.prettyPrint();
+  });
+
+  deleteButton.addEventListener('click', () => {
+    const value = parseInt(deleteInput.value);
+    tree.delete(value);
+    console.clear();
+    console.log(value);
+    tree.prettyPrint();
+  });
+
+} 
+
+function randomNumbers(size) {
+  let randomArray = [];
+
+  for (let i = 0; i < size; i++) {
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    randomArray.push(randomNumber);
+  }
+  return randomArray;
+}
+
+domElements();
+
+/*
+//Debugging tests
+
 const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arrayData);
 
-// Tests
+
 tree.insert(119);
-tree.insert(120);
-tree.insert(121);
-tree.insert(123);
-tree.insert(124);
-tree.insert(125);
-//tree.delete(10);
 tree.prettyPrint();
-//tree.find(6345);
-//console.log(tree);
-//tree.levelOrder(console.log);
-//tree.inOrder(console.log);
-//console.log(tree.depth(8));
-//tree.preOrder(console.log);
-//tree.postOrder(console.log);
-//console.log(tree.height(67));
-//console.log(tree.depth(3));
+tree.find(6345);
+console.log(tree);
+tree.levelOrder(console.log);
+tree.inOrder(console.log);
+console.log(tree.depth(8));
+tree.preOrder(console.log);
+tree.postOrder(console.log);
+console.log(tree.height(67));
+console.log(tree.depth(3));
 tree.isBalanced();
 tree.rebalance();
 tree.prettyPrint();
 tree.isBalanced();
+console.log(tree);
+*/
+
+
