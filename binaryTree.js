@@ -48,7 +48,7 @@ class Tree {
   delete(data, currentNode = this.root, previousNode = null) {
     // If node cannot be found
     if (currentNode === null) {
-      console.log('Tree is empty.');
+      console.log('Node cannot be found.');
       return null;
     }
 
@@ -394,6 +394,15 @@ function domElements() {
 
   postOrderButton.addEventListener('click', () => {
     console.log(tree.postOrder());
+  });
+
+  isBalancedButton.addEventListener('click', () => {
+    tree.isBalanced();
+  });
+
+  rebalanceButton.addEventListener('click', () => {
+    tree.rebalance();
+    tree.prettyPrint();
   });
 
 } 
