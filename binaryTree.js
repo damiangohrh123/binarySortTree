@@ -46,10 +46,14 @@ class Tree {
 
   delete(data, currentNode = this.root, previousNode = null) {
     // If node cannot be found
-    if (currentNode === null) return console.log('Node cannot be found.');
+    if (currentNode === null) {
+      console.log('Node cannot be found.');
+      return null;
+    }
 
     // Base case
     if (data === currentNode.data) return this.#deleteHelper(currentNode, previousNode);
+    
 
     // Recursive case
     if (data < currentNode.data) {
@@ -82,7 +86,7 @@ class Tree {
     if (currentNode.left || currentNode.right) {
       if (previousNode.left === currentNode) {
         previousNode.left = currentNode.left ? currentNode.left : currentNode.right;
-        return previousNode.left;
+        return previousNode.left
       } else if (previousNode.right === currentNode) {
         previousNode.right = currentNode.left ? currentNode.left : currentNode.right;
         return previousNode.right;
@@ -115,8 +119,7 @@ class Tree {
     // CASE 2: After running while loop, set the 'deleted' node data to the successor data. Then, delete the successor node.
     if (previousNode !== rightSubtree) {
       currentNode.data = rightSubtree.data;
-      if (previousNode.left === rightSubtree) previousNode.left = rightSubtree.right;
-      else previousNode.right = rightSubtree.right;
+      (previousNode.left === rightSubtree) ? previousNode.left = rightSubtree.right : previousNode.right = rightSubtree.right;
     }
     return currentNode;
   }
@@ -335,7 +338,7 @@ function domElements() {
   deleteButton.addEventListener('click', () => {
     const value = parseInt(deleteInput.value);
     tree.delete(value);
-    tree.prettyPrint();
+    if (tree.delete !== null) tree.prettyPrint();
   });
 
   heightButton.addEventListener('click', () => {
@@ -390,29 +393,27 @@ function randomNumbers(size) {
 
 domElements();
 
-/*
+
 //Debugging tests
 
 const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arrayData);
 
+tree.delete(3);
+//tree.insert(119);
+//tree.find(6345);
+//tree.levelOrder(console.log);
+//tree.inOrder(console.log);
+//console.log(tree.depth(8));
+//tree.preOrder(console.log);
+//tree.postOrder(console.log);
+//console.log(tree.height(67));
+//console.log(tree.depth(3));
+//tree.isBalanced();
+//tree.rebalance();
+tree.prettyPrint();
+tree.isBalanced();
+console.log(tree);
 
-tree.insert(119);
-tree.prettyPrint();
-tree.find(6345);
-console.log(tree);
-tree.levelOrder(console.log);
-tree.inOrder(console.log);
-console.log(tree.depth(8));
-tree.preOrder(console.log);
-tree.postOrder(console.log);
-console.log(tree.height(67));
-console.log(tree.depth(3));
-tree.isBalanced();
-tree.rebalance();
-tree.prettyPrint();
-tree.isBalanced();
-console.log(tree);
-*/
 
 
