@@ -7,35 +7,55 @@
 </head>
 <body>
   <script src='binaryTree.js' defer></script>
+  <link rel="stylesheet" type="text/css" href="./styles.css">
   <h1>Open up console to see and use Binary Tree!</h1>
 
-  <h3>Enter the size of the array. Values will be randomly generated. </h3>
-  <input type='number' id='randomNumberInput' maxlength='3'>
-  <button id='randomNumberButton'>Enter</button>
+  <div class='inputs'>
+    <div>
+      <h2>Enter the size of the tree (Min size 1, Max size 99. values will be randomly generated.) </h2>
+      <input type='number' id='randomNumberInput' minLength='1' maxlength='3'>
+      <button id='randomNumberButton'>Enter</button>
+    </div>
 
-  <h3>Insert single number.</h3>
-  <input type='number' id='insertInput' maxlength='3'>
-  <button id='insertButton'>Enter</button>
+    <div>
+      <h2>Insert node</h2>
+      <input type='number' id='insertInput' maxlength='3'>
+      <button id='insertButton'>Enter</button>
+    </div>
 
-  <h3>Remove single number.</h3>
-  <input type='number' id='deleteInput' maxlength='3'>
-  <button id='deleteButton'>Enter</button>
+    <div>  
+      <h2>Remove node</h2>
+      <input type='number' id='deleteInput' maxlength='3'>
+      <button id='deleteButton'>Enter</button>
+    </div>
 
-  <h3>View height of node.</h3>
-  <input type='number' id='heightInput' maxlength='3'>
-  <button id='heightButton'>Enter</button>
+    <div>
+      <h2>View height of node</h2>
+      <input type='number' id='heightInput' maxlength='3'>
+      <button id='heightButton'>Enter</button>
+    </div>
 
-  <h3>View depth of node.</h3>
-  <input type='number' id='depthInput' maxlength='3'>
-  <button id='depthButton'>Enter</button>
-<p></p>
-  <button id='levelOrderButton'>Click to run level order traversal.</button>
-  <button id='inOrderButton'>Click to run in order traversal.</button>
-  <button id='preOrderButton'>Click to run pre order traversal.</button>
-  <button id='postOrderButton'>Click to run post order traversal.</button>
-<p></p>
-  <button id='isBalancedButton'>Check if tree is balanced.</button>
-  <button id='rebalanceButton'>Balance the tree.</button>
+    <div>
+      <h2>View depth of node</h2>
+      <input type='number' id='depthInput' maxlength='3'>
+      <button id='depthButton'>Enter</button>
+    </div>  
+  </div>
+<div class='container'>
+  <div class='orderTraversal'>
+    <h3>Tree Traversal</h3>
+    <button id='levelOrderButton'>Level order traversal</button>
+    <button id='inOrderButton'>In-order traversal</button>
+    <button id='preOrderButton'>Pre-order traversal</button>
+    <button id='postOrderButton'>Post-order traversal</button>
+  </div>
+  <div class='balance'>
+    <h3>Balance</h3>
+    <button id='isBalancedButton'>Check if tree is balanced</button>
+    <button id='rebalanceButton'>Balance the tree</button>
+  </div>
+</div>
 
+</div>
 </body>
 </html>

@@ -1,0 +1,88 @@
+:root {
+  --fontColor: rgb(63, 63, 63);
+  --card: rgb(255, 255, 255);
+}
+
+@font-face {
+  font-family: 'baseFont'; /* The name you want to use for the font */
+  src: url('./Lato-Light.woff') format('truetype'); /* Path to the font file */
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  font-family: 'baseFont';
+  letter-spacing: 6px;
+
+  color: var(--fontColor);
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+body {
+  padding: 20px;
+}
+
+button {
+  letter-spacing: 2px;
+  font-weight: 900;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  padding: 50px 0;
+
+}
+
+.container {
+  display: flex;
+  gap: 50px;
+}
+
+.orderTraversal {
+  display: flex;
+  flex-direction: column ;
+  gap: 20px;
+
+  width: 400px;
+
+  padding: 20px 20px 80px 20px;
+
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.balance {
+  display: flex;
+  flex-direction: column ;
+  gap: 20px;
+
+  width: 400px;
+
+  padding: 20px 20px 80px 20px;
+
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.balance button,
+.orderTraversal button {
+  height: 40px;
+}
+

@@ -161,7 +161,10 @@ class Tree {
   levelOrder(callbackFunction) {
     const array = [];
 
-    if (this.root === null) return null;
+    if (this.root === null) {
+      console.log('Tree is empty');
+      return null;
+    }
 
     const queue = [this.root];
     while (queue.length > 0) {
@@ -352,7 +355,15 @@ function domElements() {
   const rebalanceButton = document.getElementById('rebalanceButton');
 
   // Eventlistners
-  randomNumberButton.addEventListener('click', () => {
+  randomNumberInput.addEventListener('input', () => {
+    const maxLength = 2; 
+    if (randomNumberInput.value.length > maxLength) {
+      randomNumberInput.value = randomNumberInput.value.slice(0, maxLength); 
+    }
+  });
+
+  randomNumberButton.addEventListener('click', (event) => {
+    event.preventDefault();
     const arrayData = randomNumbers(randomNumberInput.value);
     tree = new Tree(arrayData);
     tree.prettyPrint();
@@ -381,30 +392,33 @@ function domElements() {
   });
 
   levelOrderButton.addEventListener('click', () => {
-    tree.levelOrder();
+    (tree) ? tree.levelOrder() : console.log('Tree does not exist. Please create a new tree.');
   });
 
   inOrderButton.addEventListener('click', () => {
-    console.log(tree.inOrder());
+    (tree) ? console.log(tree.inOrder()) : console.log('Tree does not exist. Please create a new tree.');
   });
   
   preOrderButton.addEventListener('click', () => {
-    console.log(tree.preOrder());
+    (tree) ? console.log(tree.preOrder()) : console.log('Tree does not exist. Please create a new tree.');
   });
 
   postOrderButton.addEventListener('click', () => {
-    console.log(tree.postOrder());
+    (tree) ? console.log(tree.postOrder()) : console.log('Tree does not exist. Please create a new tree.');
   });
 
   isBalancedButton.addEventListener('click', () => {
-    tree.isBalanced();
+    (tree) ? tree.isBalanced() : console.log('Tree does not exist. Please create a new tree.');
   });
 
   rebalanceButton.addEventListener('click', () => {
-    tree.rebalance();
-    tree.prettyPrint();
+    if (tree) {
+      tree.rebalance();
+      tree.prettyPrint();
+    } else {
+      console.log('Tree does not exist. Please create a new tree.');
+    }
   });
-
 } 
 
 function randomNumbers(size) {
