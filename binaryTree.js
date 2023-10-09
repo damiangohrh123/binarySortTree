@@ -54,7 +54,6 @@ class Tree {
     // Base case
     if (data === currentNode.data) return this.#deleteHelper(currentNode, previousNode);
     
-
     // Recursive case
     if (data < currentNode.data) {
       currentNode.left = this.delete(data, currentNode.left, currentNode);
@@ -99,7 +98,6 @@ class Tree {
    * this functions finds the minimum value in the right subtree of the current node.
    */
   #successor(currentNode) {
-
     let rightSubtree = currentNode.right;
     let previousNode = rightSubtree;
 
@@ -164,7 +162,6 @@ class Tree {
    * Postorder - <Left>, <Right>, <Root>
    */
   inOrder(callbackFunction, currentNode = this.root, array = []) {
-    
     // Base case
     if (currentNode === null) return null;
     
@@ -393,9 +390,8 @@ function randomNumbers(size) {
 
 domElements();
 
-
+/*
 //Debugging tests
-
 const arrayData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arrayData);
 
@@ -414,6 +410,6 @@ tree.delete(3);
 tree.prettyPrint();
 tree.isBalanced();
 console.log(tree);
-
+*/
 
 
