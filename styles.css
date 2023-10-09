@@ -36,9 +36,20 @@ body {
   padding: 20px;
 }
 
+input {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
 button {
+  padding: 2px 6px;
   letter-spacing: 2px;
   font-weight: 900;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 .inputs {
@@ -47,7 +58,6 @@ button {
   gap: 20px;
   
   padding: 50px 0;
-
 }
 
 .container {
