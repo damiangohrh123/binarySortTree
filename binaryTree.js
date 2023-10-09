@@ -24,7 +24,7 @@ class Tree {
     const midPoint = Math.floor(sortedArray.length / 2);
     const newNode = new Node(sortedArray[midPoint]);
 
-    // Recursive Case
+    // Recursive Case (Splitting array in halves)
     newNode.left = this.buildTree(sortedArray.slice(0, midPoint));
     newNode.right = this.buildTree(sortedArray.slice(midPoint + 1));
 
@@ -36,26 +36,20 @@ class Tree {
     if (currentNode === null) {
       return new Node(data);
     }
+
     // Recursive case
-    if (data < currentNode.data) {
-      currentNode.left = this.insert(data, currentNode.left);
-    } else if (data > currentNode.data) {
-      currentNode.right = this.insert(data, currentNode.right);
-    }
+    if (data < currentNode.data) currentNode.left = this.insert(data, currentNode.left);
+    else if (data > currentNode.data) currentNode.right = this.insert(data, currentNode.right);
+
     return currentNode;
   }
 
   delete(data, currentNode = this.root, previousNode = null) {
     // If node cannot be found
-    if (currentNode === null) {
-      console.log('Node cannot be found.');
-      return null;
-    }
+    if (currentNode === null) return console.log('Node cannot be found.');
 
     // Base case
-    if (data === currentNode.data) {
-      return this.#deleteHelper(currentNode, previousNode);
-    }
+    if (data === currentNode.data) return this.#deleteHelper(currentNode, previousNode);
 
     // Recursive case
     if (data < currentNode.data) {
@@ -82,20 +76,17 @@ class Tree {
     }
 
     // CASE 2: Delete a node with 2 childs
-    if (currentNode.left && currentNode.right) {
-     return this.#successor(currentNode);
-    }
+    if (currentNode.left && currentNode.right) return this.#successor(currentNode);
 
     // CASE 3: Delete a node with a single child
     if (currentNode.left || currentNode.right) {
-      if (currentNode.left) {
-        currentNode = currentNode.left;
-        previousNode.left = currentNode;
-      } else if (currentNode.right) {
-        currentNode = currentNode.right;
-        previousNode.right = currentNode;
+      if (previousNode.left === currentNode) {
+        previousNode.left = currentNode.left ? currentNode.left : currentNode.right;
+        return previousNode.left;
+      } else if (previousNode.right === currentNode) {
+        previousNode.right = currentNode.left ? currentNode.left : currentNode.right;
+        return previousNode.right;
       }
-      return currentNode;
     }
   }
 
@@ -121,15 +112,11 @@ class Tree {
       currentNode.right = null;
     }
 
-    // CASE 2: After running while loop,
-    // Set the 'deleted' node data to the successor data. Then, delete the successor node.
+    // CASE 2: After running while loop, set the 'deleted' node data to the successor data. Then, delete the successor node.
     if (previousNode !== rightSubtree) {
       currentNode.data = rightSubtree.data;
-      if (previousNode.left === rightSubtree) {
-        previousNode.left = rightSubtree.right;
-      } else {
-        previousNode.right = rightSubtree.right;
-      }
+      if (previousNode.left === rightSubtree) previousNode.left = rightSubtree.right;
+      else previousNode.right = rightSubtree.right;
     }
     return currentNode;
   }
@@ -138,19 +125,11 @@ class Tree {
     if (currentNode === null) return console.log('Node not found');
 
     // Base case
-    if (data === currentNode.data) {
-      // Debugging purposes
-      //console.log('Node found: ')
-      //console.log(currentNode);
-      return currentNode;
-    }
+    if (data === currentNode.data) return currentNode;
 
     // Recursive case
-    if (data < currentNode.data) {
-      return currentNode = this.find(data, currentNode.left);
-    } else if (data > currentNode.data) {
-      return currentNode = this.find(data, currentNode.right);
-    }
+    if (data < currentNode.data) return currentNode = this.find(data, currentNode.left);
+    if (data > currentNode.data) return currentNode = this.find(data, currentNode.right);
   }
 
   /**
@@ -161,27 +140,16 @@ class Tree {
   levelOrder(callbackFunction) {
     const array = [];
 
-    if (this.root === null) {
-      console.log('Tree is empty');
-      return null;
-    }
-
+    if (this.root === null) return null;
+    
     const queue = [this.root];
     while (queue.length > 0) {
       const currentNode = queue.shift();
       array.push(currentNode.data);
 
-      if (callbackFunction) {
-        callbackFunction(currentNode.data);
-      }
-
-      if (currentNode.left) {
-        queue.push(currentNode.left);
-      }
-
-      if (currentNode.right) {
-        queue.push(currentNode.right);
-      }
+      if (callbackFunction) callbackFunction(currentNode.data);
+      if (currentNode.left) queue.push(currentNode.left);
+      if (currentNode.right) queue.push(currentNode.right);
     }
     return console.log(array);
   }
@@ -199,9 +167,7 @@ class Tree {
     
     // Recursive case
     this.inOrder(callbackFunction, currentNode.left, array);
-    if (callbackFunction) {
-      callbackFunction(currentNode);
-    }
+    if (callbackFunction) callbackFunction(currentNode);
     array.push(currentNode.data);
     this.inOrder(callbackFunction, currentNode.right, array);
 
@@ -213,9 +179,7 @@ class Tree {
     if (currentNode === null) return null;
 
     // Recursive case
-    if (callbackFunction) {
-      callbackFunction(currentNode);
-    }
+    if (callbackFunction) callbackFunction(currentNode);
     array.push(currentNode.data);
     this.preOrder(callbackFunction, currentNode.right, array);
     this.preOrder(callbackFunction, currentNode.left, array);
@@ -230,9 +194,7 @@ class Tree {
     // Recursive case
     this.postOrder(callbackFunction, currentNode.left, array);
     this.postOrder(callbackFunction, currentNode.right, array);
-    if (callbackFunction) {
-      callbackFunction(currentNode);
-    }
+    if (callbackFunction) callbackFunction(currentNode);
     array.push(currentNode.data);
 
     return array;
@@ -243,7 +205,6 @@ class Tree {
     let node = this.find(data);
 
     function getHeight(currentNode) {
-
       // Base case
       if (currentNode === null) return -1;
 
@@ -274,14 +235,12 @@ class Tree {
     return counter;
   }
 
-  isBalanced(currentNode = this.root) {
-
+  isBalanced(currentNode = this.root) { 
     // Recursive case (Making use of height method)
     let leftSubtree = this.height(currentNode.left.data);
     let rightSubtree = this.height(currentNode.right.data);
 
-    // Compare the heights of leftSubtree and rightSubtree,
-    // then absolute the number.
+    // Compare the heights of leftSubtree and rightSubtree, then absolute the number.
 
     let compare = Math.abs(leftSubtree - rightSubtree);
     if (compare > 1) {
@@ -305,7 +264,6 @@ class Tree {
     }
 
     this.inOrder(pushToArray, currentNode);
-    
     this.root = this.buildTree(array);
   }
 
@@ -332,12 +290,11 @@ class Tree {
  * Easier to use through HTML page.
  */
 function domElements() {
-
   // Definfing the tree here so all eventListeners can access it.
   let tree;
 
   // DOM elements
-  const randomNumberInput= document.getElementById('randomNumberInput');
+  const randomNumberInput = document.getElementById('randomNumberInput');
   const randomNumberButton = document.getElementById('randomNumberButton');
   const insertInput = document.getElementById('insertInput');
   const insertButton = document.getElementById('insertButton');
