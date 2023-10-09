@@ -123,7 +123,7 @@ class Tree {
   }
 
   find(data, currentNode = this.root) {
-    if (currentNode === null) return console.log('Node not found');
+    if (currentNode === null) return null;
 
     // Base case
     if (data === currentNode.data) return currentNode;
@@ -203,6 +203,10 @@ class Tree {
   height(data) {
     // Make use of find method
     let node = this.find(data);
+    if (node === null) {
+      console.log('Node not found.');
+      return null;
+    }
 
     function getHeight(currentNode) {
       // Base case
@@ -236,12 +240,24 @@ class Tree {
   }
 
   isBalanced(currentNode = this.root) { 
+    // If tree only has 1 node
+    if (this.root.left === null && this.root.right === null) {
+      console.log('Tree is balanced');
+      return true;
+    }
+
+    // If tree only has 2 nodes
+    if ((this.root.left && !this.root.right && !this.root.left.left && !this.root.left.right) ||
+    (!this.root.left && this.root.right && !this.root.right.left && !this.root.right.right)) {
+    console.log('Tree is balanced');
+    return true;
+    }
+
     // Recursive case (Making use of height method)
     let leftSubtree = this.height(currentNode.left.data);
     let rightSubtree = this.height(currentNode.right.data);
 
     // Compare the heights of leftSubtree and rightSubtree, then absolute the number.
-
     let compare = Math.abs(leftSubtree - rightSubtree);
     if (compare > 1) {
       console.log('Tree is not balanced');
@@ -319,53 +335,84 @@ function domElements() {
     }
   });
 
-  randomNumberButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    const arrayData = randomNumbers(randomNumberInput.value);
-    tree = new Tree(arrayData);
-    tree.prettyPrint();
+  randomNumberButton.addEventListener('click', () => {
+    if (randomNumberInput.value.length > 0 && randomNumberInput.value !== '0') {
+      const arrayData = randomNumbers(randomNumberInput.value);
+      tree = new Tree(arrayData);
+      tree.prettyPrint();
+    } else {
+      alert('Please input a proper value.');
+    }
   });
 
   insertButton.addEventListener('click', () => {
-    const value = parseInt(insertInput.value);
-    tree.insert(value);
-    tree.prettyPrint();
+    if (tree) {
+      if (insertInput.value.length > 0) {
+        const value = parseInt(insertInput.value);
+        tree.insert(value);
+        tree.prettyPrint();
+      } else {
+        alert('Please insert a proper value.');
+      }
+    } else {
+      alert('Tree does not exist. Please create a new tree.');
+    }
   });
 
   deleteButton.addEventListener('click', () => {
-    const value = parseInt(deleteInput.value);
-    tree.delete(value);
-    if (tree.delete !== null) tree.prettyPrint();
+    if (tree) {
+      const value = parseInt(deleteInput.value);
+      tree.delete(value);
+      tree.prettyPrint();
+    } else {
+      alert('Tree does not exist. Please create a new tree.');
+    }
   });
 
   heightButton.addEventListener('click', () => {
-    const value = parseInt(heightInput.value);
-    console.log(tree.height(value));
+    if (tree) {
+      if (heightInput.value.length > 0) {
+        const value = parseInt(heightInput.value);
+        if (tree.height(value) !== null) console.log('Node not found');
+      } else {
+        alert('Please insert a proper value.');
+      }
+    } else {
+      alert('Tree does not exist. Please create a new tree.');
+    }
   });
 
   depthButton.addEventListener('click', () => {
-    const value = parseInt(depthInput.value);
-    console.log(tree.depth(value));
+    if (tree) {
+      if (depthInput.value.length > 0) {
+        const value = parseInt(depthInput.value);
+        console.log(tree.depth(value));
+      } else {
+        alert('Please insert a proper value.');
+      }
+    } else {
+      alert('Tree does not exist. Please create a new tree.');
+    }
   });
 
   levelOrderButton.addEventListener('click', () => {
-    (tree) ? tree.levelOrder() : console.log('Tree does not exist. Please create a new tree.');
+    (tree) ? tree.levelOrder() : alert('Tree does not exist. Please create a new tree.');
   });
 
   inOrderButton.addEventListener('click', () => {
-    (tree) ? console.log(tree.inOrder()) : console.log('Tree does not exist. Please create a new tree.');
+    (tree) ? console.log(tree.inOrder()) : alert('Tree does not exist. Please create a new tree.');
   });
   
   preOrderButton.addEventListener('click', () => {
-    (tree) ? console.log(tree.preOrder()) : console.log('Tree does not exist. Please create a new tree.');
+    (tree) ? console.log(tree.preOrder()) : alert('Tree does not exist. Please create a new tree.');
   });
 
   postOrderButton.addEventListener('click', () => {
-    (tree) ? console.log(tree.postOrder()) : console.log('Tree does not exist. Please create a new tree.');
+    (tree) ? console.log(tree.postOrder()) : alert('Tree does not exist. Please create a new tree.');
   });
 
   isBalancedButton.addEventListener('click', () => {
-    (tree) ? tree.isBalanced() : console.log('Tree does not exist. Please create a new tree.');
+    (tree) ? tree.isBalanced() : alert('Tree does not exist. Please create a new tree.');
   });
 
   rebalanceButton.addEventListener('click', () => {
@@ -373,7 +420,7 @@ function domElements() {
       tree.rebalance();
       tree.prettyPrint();
     } else {
-      console.log('Tree does not exist. Please create a new tree.');
+      alert('Tree does not exist. Please create a new tree.');
     }
   });
 } 
