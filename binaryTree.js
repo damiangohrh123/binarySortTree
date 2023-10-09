@@ -46,7 +46,6 @@ class Tree {
   }
 
   delete(data, currentNode = this.root, previousNode = null) {
-    console.log(currentNode);
     // If node cannot be found
     if (currentNode === null) {
       console.log('Tree is empty.');
@@ -55,7 +54,6 @@ class Tree {
 
     // Base case
     if (data === currentNode.data) {
-      console.log(currentNode);
       return this.#deleteHelper(currentNode, previousNode);
     }
 
@@ -161,11 +159,14 @@ class Tree {
    * Callback function gives flexibility to perform various operations. (E.g. Add 2 to every Node in the tree)
    */
   levelOrder(callbackFunction) {
+    const array = [];
+
     if (this.root === null) return null;
 
     const queue = [this.root];
     while (queue.length > 0) {
       const currentNode = queue.shift();
+      array.push(currentNode.data);
 
       if (callbackFunction) {
         callbackFunction(currentNode.data);
@@ -179,6 +180,7 @@ class Tree {
         queue.push(currentNode.right);
       }
     }
+    return console.log(array);
   }
 
   /**
@@ -187,19 +189,23 @@ class Tree {
    * Preorder - <Root>, <Right>, <Left>
    * Postorder - <Left>, <Right>, <Root>
    */
-  inOrder(callbackFunction, currentNode = this.root) {
+  inOrder(callbackFunction, currentNode = this.root, array = []) {
+    
     // Base case
     if (currentNode === null) return null;
     
     // Recursive case
-    this.inOrder(callbackFunction, currentNode.left);
+    this.inOrder(callbackFunction, currentNode.left, array);
     if (callbackFunction) {
       callbackFunction(currentNode);
     }
-    this.inOrder(callbackFunction, currentNode.right);
+    array.push(currentNode.data);
+    this.inOrder(callbackFunction, currentNode.right, array);
+
+    return array;
   }
 
-  preOrder(callbackFunction, currentNode = this.root) {
+  preOrder(callbackFunction, currentNode = this.root, array = []) {
     // Base case
     if (currentNode === null) return null;
 
@@ -207,21 +213,26 @@ class Tree {
     if (callbackFunction) {
       callbackFunction(currentNode);
     }
-    this.preOrder(callbackFunction, currentNode.right);
-    this.preOrder(callbackFunction, currentNode.left);
+    array.push(currentNode.data);
+    this.preOrder(callbackFunction, currentNode.right, array);
+    this.preOrder(callbackFunction, currentNode.left, array);
     
+    return array;
   }
 
-  postOrder(callbackFunction, currentNode = this.root) {
+  postOrder(callbackFunction, currentNode = this.root, array = []) {
     // Base case
     if (currentNode === null) return null;
 
     // Recursive case
-    this.postOrder(callbackFunction, currentNode.left);
-    this.postOrder(callbackFunction, currentNode.right);
+    this.postOrder(callbackFunction, currentNode.left, array);
+    this.postOrder(callbackFunction, currentNode.right, array);
     if (callbackFunction) {
       callbackFunction(currentNode);
     }
+    array.push(currentNode.data);
+
+    return array;
   }
   
   height(data) {
@@ -253,10 +264,8 @@ class Tree {
 
     // Recursive case
     if (data < currentNode.data) {
-      console.log(currentNode);
       return this.depth(data, currentNode.left, counter + 1)
     } else if (data > currentNode.data) {
-      console.log(currentNode);
       return this.depth(data, currentNode.right, counter + 1);
     }
     return counter;
@@ -359,6 +368,32 @@ function domElements() {
     const value = parseInt(deleteInput.value);
     tree.delete(value);
     tree.prettyPrint();
+  });
+
+  heightButton.addEventListener('click', () => {
+    const value = parseInt(heightInput.value);
+    console.log(tree.height(value));
+  });
+
+  depthButton.addEventListener('click', () => {
+    const value = parseInt(depthInput.value);
+    console.log(tree.depth(value));
+  });
+
+  levelOrderButton.addEventListener('click', () => {
+    tree.levelOrder();
+  });
+
+  inOrderButton.addEventListener('click', () => {
+    console.log(tree.inOrder());
+  });
+  
+  preOrderButton.addEventListener('click', () => {
+    console.log(tree.preOrder());
+  });
+
+  postOrderButton.addEventListener('click', () => {
+    console.log(tree.postOrder());
   });
 
 } 
