@@ -1,7 +1,10 @@
-# binarySortTree  
+# Binary Sort Tree  
 Creating a binary sort tree  
 
-UPDATE:
+## Live demo
+https://damiangohrh123.github.io/binarySortTree/
+
+## Process
 -Watched several videos on Binary Trees, traversal, balancing etc. <br>
 -Overall tough but fun project. <br>
 -More confident in using recursion. <br>
